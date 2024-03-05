@@ -6,7 +6,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 from torchvision import datasets
-from torchvision.transforms import ToTensor
+from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
 
 class BaselineDataset(Dataset):
@@ -46,8 +46,13 @@ class BaselineDataset(Dataset):
 def load_dataset():
     img_dir = os.path.abspath(os.path.abspath(os.path.join(os.getcwd(),os.pardir,os.pardir)) + '/data/features_CrossSect-5074_LongBLM12-802_LongBLM24-532')
     annotations_file = '/'.join(img_dir.split('/')[:-1]) + '/ADNI_MALPEM_baseline_1069.csv'
+
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Resize([256,256]),
+    ])
         
-    data = BaselineDataset(annotations_file=annotations_file,img_dir=img_dir)
+    data = BaselineDataset(annotations_file=annotations_file,img_dir=img_dir,transform=transform)
 
     return data
 
